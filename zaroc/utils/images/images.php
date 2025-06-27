@@ -100,6 +100,11 @@ $img_MedicalWelcome = "$baseFolder/medicalWelcome.png";
 $img_Weather = "$baseFolder/weather.png";
 $img_News = "$baseFolder/news.png";
 
+$img_Pokemon = "https://art.pixilart.com/c07ac139be28eba.png";
+$img_Tipo = "https://i.pinimg.com/736x/3c/dd/17/3cdd17306e51b9ff6c0264241e3e4c4c.jpg";
+$img_Piedra = "https://images.wikidexcdn.net/mwuploads/wikidex/b/ba/latest/20240216054922/Piedra_trueno_Sleep.png";
+$img_Pokeball = "https://i.pinimg.com/474x/5a/9b/9d/5a9b9d580cef8ecfe154ae5a0e789949.jpg";
 
+$img_Question = "https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/2753.png";
 
 ?>

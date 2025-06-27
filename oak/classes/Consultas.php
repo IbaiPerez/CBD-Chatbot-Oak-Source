@@ -147,6 +147,31 @@ Class Consultas {
         $stmt =  null;
 
     }
+
+        static public function seleccionaPokemon_altura($value, $comparator) {
+
+        if($comparator === "igual") {
+            $s = "=";
+        } elseif($comparator === "mayor") {
+            $s = ">";
+        } elseif($comparator === "menor") {
+            $s = "<";
+        } elseif($comparator === "mayor o igual") {
+            $s = ">=";
+        } else {
+            $s = "<=";
+        }
+
+        $sql = "SELECT *
+        FROM pokemon
+        WHERE altura $s $value";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
 }
 
 ?>

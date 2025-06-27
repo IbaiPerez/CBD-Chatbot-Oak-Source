@@ -20,7 +20,7 @@
             $pSubtitleArray = ["¿De que quieres saberlo?"];
 
             $cTitleArray = ["Pokemones", "Tipos de pokemones", "Tipos de piedras"];
-            $cImageArray = ["https://art.pixilart.com/c07ac139be28eba.png","https://i.pinimg.com/736x/3c/dd/17/3cdd17306e51b9ff6c0264241e3e4c4c.jpg","https://images.wikidexcdn.net/mwuploads/wikidex/b/ba/latest/20240216054922/Piedra_trueno_Sleep.png"];
+            $cImageArray = [$img_Pokemon,$img_Tipo,$img_Piedra];
             $cCustomArray = ["pokemon","tipo","tipo_piedra"];
 
 
@@ -58,12 +58,20 @@
             $pTitleArray = ["$title"];
             $pSubtitleArray = ["Hay $n $title"];
 
+            $cTitleArray = ["Cuales son los $tab?"];
+            $cImageArray = [$img_Question];
+            $cCustomArray = ["Cuales son los $tab"];
+
             $structure = [
-                            'paragraph'
+                            'paragraph',
+                            'comma',
+                            'reply'
                         ];
 
             $components = [
-                            [$pTitleArray,$pSubtitleArray]
+                            [$pTitleArray,$pSubtitleArray],
+                            [],
+                            [$cTitleArray,$cImageArray,$cCustomArray]
                         ];
 
                         
@@ -97,7 +105,7 @@
             $pSubtitleArray = ["¿De que quieres saberlo?"];
 
             $cTitleArray = ["Pokemones", "Tipos de pokemones", "Tipos de piedras"];
-            $cImageArray = ["https://art.pixilart.com/c07ac139be28eba.png","https://i.pinimg.com/736x/3c/dd/17/3cdd17306e51b9ff6c0264241e3e4c4c.jpg","https://images.wikidexcdn.net/mwuploads/wikidex/b/ba/latest/20240216054922/Piedra_trueno_Sleep.png"];
+            $cImageArray = [$img_Pokemon,$img_Tipo,$img_Piedra];
             $cCustomArray = ["pokemon","tipo","tipo_piedra"];
 
 
@@ -227,7 +235,7 @@
             $pSubtitleArray = ["Hay $n  pokemones de tipo $type"];
 
             $cTitleArray = ["Cuales son los pokemones de tipo $type"];
-            $cImageArray = [$img_Scroll];
+            $cImageArray = [$img_Question];
             $cCustomArray = ["Cuales son los pokemones de tipo $type"];
 
             $structure = [
@@ -334,7 +342,7 @@
             $pSubtitleArray = ["Hay $n pokemones con un peso $comparator a $value $unit"];
 
             $cTitleArray = ["Cuales son los pokemones con un peso $comparator a $value $unit"];
-            $cImageArray = [$img_Scroll];
+            $cImageArray = [$img_Question];
             $cCustomArray = ["Cuales son los pokemones con un peso $comparator a $value $unit"];
 
             $structure = [
@@ -362,7 +370,7 @@
 
         ob_start();
 
-        $altura = getIntentParameter()['unit-weight'];
+        $altura = getIntentParameter()['unit-length'];
 
         $value = getIntentParameter()["number"];
 
@@ -405,7 +413,7 @@
 
                 $value = $altura["amount"];
 
-                $unit = $peso["unit"];
+                $unit = $altura["unit"];
 
             } elseif($value) {
                 
@@ -450,12 +458,20 @@
             $pTitleArray = ["$value $unit"];
             $pSubtitleArray = ["Hay $n pokemones con una altura $comparator a $value $unit"];
 
+            $cTitleArray = ["Cuales son los pokemones con una altura $comparator a $value $unit"];
+            $cImageArray = [$img_Question];
+            $cCustomArray = ["Cuales son los pokemones con una altura $comparator a $value $unit"];
+
             $structure = [
-                            'paragraph'
+                            'paragraph',
+                            'comma',
+                            'reply'
                         ];
 
             $components = [
-                            [$pTitleArray,$pSubtitleArray]
+                            [$pTitleArray,$pSubtitleArray],
+                            [],
+                            [$cTitleArray,$cImageArray,$cCustomArray]
                         ];
 
                         
@@ -637,6 +653,120 @@
             $webTitle = ["Oak"];
             
             $aTitleArray = ["Estos son los pokemones con un peso $comparator a $value $unit"];
+
+            $structure = [
+                            'description'
+                        ];
+
+            $components = [
+                            [$aTitleArray,$aTextArray]
+                        ];
+
+                        
+            
+                        
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+        }
+
+    }
+
+        if(intent("consulta_todosPorAltura")) {
+
+        ob_start();
+
+        $altura = getIntentParameter()['unit-length'];
+
+        $value = getIntentParameter()["number"];
+
+        $unit = getIntentparameter()["unit-length-name"];
+
+        ob_end_clean();
+
+        if(!$altura && !$value && !$unit) {
+
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+
+            $title = getInput()["queryResult"]["queryText"];
+
+            $pTitleArray = [$title];
+            $pSubtitleArray = ["Necesito que especifique al menos el valor de la altura"];
+
+
+            $structure = [
+                            'paragraph',
+                        ];
+
+            $components = [
+                            [$pTitleArray,$pSubtitleArray]
+                        ];
+
+                        
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+        } else {
+
+            ob_start();
+
+            $comparator = getIntentParameter()["compare"];
+            
+            ob_end_clean();
+
+            if($altura) {
+
+                $value = $altura["amount"];
+
+                $unit = $altura["unit"];
+
+            } elseif($value) {
+                
+                $unit = "m";
+
+            } else {
+
+                $value = 1;
+
+            }
+
+            
+            if($unit == "mm") {
+                $number = $value/1000;
+            } elseif($unit == "cm") {
+                $number = $value/100;
+            } elseif($unit == "dm") {
+                $number = $value/10;
+            } elseif($unit == "m") {
+                $number = $value;
+            } elseif($unit == "dam") {
+                $number = $value*10;
+            } elseif($unit == "hm") {
+                $number = $value*100;
+            } elseif($unit == "km") {
+                $number = $value*1000;
+            }
+
+            if(!$comparator) {
+                
+                $comparator = "igual";
+
+            }
+
+
+            $p = Consultas::seleccionaPokemon_altura($number,$comparator);
+
+            $aTextArray = [[]];
+
+            for($i = 0; $i<count($p); $i++){
+                array_push($aTextArray[0], $p[$i]["nombre"]);
+            }
+
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+            
+            $aTitleArray = ["Estos son los pokemones con una altura $comparator a $value $unit"];
 
             $structure = [
                             'description'
