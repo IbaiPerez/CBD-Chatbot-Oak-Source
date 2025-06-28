@@ -5,7 +5,7 @@
         $contextBody = [];
         $webTitle = ["Oak"];
 
-        $imageArray = ["https://8a33-2a0c-5a84-780d-e400-cc60-9318-7420-d6d9.ngrok-free.app/chatbots/oak/core/images/Generacion.png"];
+        $imageArray = ["https://7d5b-2a0c-5a84-780d-e400-5dd7-8db7-26f0-1bb0.ngrok-free.app/chatbots/oak/core/images/Generacion.png"];
         $aTitleArray = ["Buenas"];
         $aSubtitleArray = ["Soy un chatbot que facilita la interacción con una base de datos mysql, este es el modelo de datos de la base de datos"];
         $aTextArray = ["Elige que deseas hacer a continuación"];
@@ -39,8 +39,9 @@
         $contextBody = [];
         $webTitle = ["Oak"];
 
-        $aTitleArray = ["Title"];
-        $aTextArray = [["Text1","Text2"]];
+        $aTitleArray = ["Ejemplos"];
+        $aTextArray = [["Número de pokemones de tipo lucha","Cuantos pokemones existen", "Que tipos existen", "Datos de Bellsprout", "Pokemones que evolucionan antes del nivel 20",
+                        "Que pokemones puedo evolucionar con una piedra agua?"]];
 
         $bTitleArray = ["Ver el modelo relacional","Seguir por mi cuenta"];
         $bCustomArray = ["relacional","seguir"];
@@ -66,7 +67,7 @@
         $contextBody = [];
         $webTitle = ["Oak"];
 
-        $imageArray = ["https://8a33-2a0c-5a84-780d-e400-cc60-9318-7420-d6d9.ngrok-free.app/chatbots/oak/core/images/Modelo.png"];
+        $imageArray = ["https://7d5b-2a0c-5a84-780d-e400-5dd7-8db7-26f0-1bb0.ngrok-free.app/chatbots/oak/core/images/Modelo.png"];
         $aTitleArray = ["Modelo relacional"];
         $aSubtitleArray = ["Este es el modelo de la base de datos que estamos utilizando"];
         $aTextArray = ["Elige que deseas hacer a continuación"];

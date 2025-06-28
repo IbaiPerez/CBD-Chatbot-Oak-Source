@@ -143,28 +143,63 @@
             $p = Consultas::selecciona_simple($tab);
 
             
-            
-            $aTextArray = [[]];
-
-            for($i = 0; $i<count($p); $i++){
-                array_push($aTextArray[0], $p[$i][$x]);
-            }
 
             $context = false;
             $contextBody = [];
             $webTitle = ["Oak"];
 
-
             
-            $aTitleArray = ["Estos son todos los $title"];
+            
+            if($tab == "pokemon") {
 
-            $structure = [
-                            'description'
-                        ];
+                $pTitleArray = ["Estos son todos los $title"];
+                $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
 
-            $components = [
-                            [$aTitleArray,$aTextArray]
-                        ];
+                $cTitleArray = [];
+                $cImageArray = [];
+                $cCustomArray = [];
+
+                for($i = 0; $i<count($p); $i++){
+                    array_push($cTitleArray, $p[$i][$x]);
+                    array_push($cCustomArray, $p[$i][$x]);
+                    array_push($cImageArray, $img_Pokeball);
+                }
+
+                $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                 $components = [
+                                [$pTitleArray,$pSubtitleArray],
+                                [],
+                                [$cTitleArray, $cImageArray, $cCustomArray]
+                            ];
+
+
+
+            } else {
+
+                $aTextArray = [[]];
+
+                for($i = 0; $i<count($p); $i++){
+                    array_push($aTextArray[0], $p[$i][$x]);
+                }
+
+
+                
+                $aTitleArray = ["Estos son todos los $title"];
+
+                $structure = [
+                                'description'
+                            ];
+
+                $components = [
+                                [$aTitleArray,$aTextArray]
+                            ];
+
+            }
 
                         
             
@@ -535,30 +570,34 @@
             $p = Consultas::seleccionaPokemon_tipo($type);
 
             
-            
-            $aTextArray = [[]];
-
-            for($i = 0; $i<count($p); $i++){
-                array_push($aTextArray[0], $p[$i]["nombre"]);
-            }
-
             $context = false;
             $contextBody = [];
             $webTitle = ["Oak"];
 
+            $pTitleArray = ["Estos son todos los pokemones de tipo $type"];
+            $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
 
-            
-            $aTitleArray = ["Estos son todos los pokemones de tipo $type"];
+            $cTitleArray = [];
+            $cImageArray = [];
+            $cCustomArray = [];
+
+            for($i = 0; $i<count($p); $i++){
+                array_push($cTitleArray, $p[$i]["nombre"]);
+                array_push($cCustomArray, $p[$i]["nombre"]);
+                array_push($cImageArray, $img_Pokeball);
+            }
 
             $structure = [
-                            'description'
+                            'paragraph',
+                            'comma',
+                            'reply'
                         ];
 
             $components = [
-                            [$aTitleArray,$aTextArray]
+                            [$pTitleArray,$pSubtitleArray],
+                            [],
+                            [$cTitleArray, $cImageArray, $cCustomArray]
                         ];
-
-                        
             
                         
             webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
@@ -642,26 +681,35 @@
 
             $p = Consultas::seleccionaPokemon_peso($number,$comparator);
 
-            $aTextArray = [[]];
-
-            for($i = 0; $i<count($p); $i++){
-                array_push($aTextArray[0], $p[$i]["nombre"]);
-            }
 
             $context = false;
             $contextBody = [];
             $webTitle = ["Oak"];
-            
-            $aTitleArray = ["Estos son los pokemones con un peso $comparator a $value $unit"];
+
+            $pTitleArray = ["Estos son los pokemones con un peso $comparator a $value $unit"];
+            $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+            $cTitleArray = [];
+            $cImageArray = [];
+            $cCustomArray = [];
+
+            for($i = 0; $i<count($p); $i++){
+                array_push($cTitleArray, $p[$i]["nombre"]);
+                array_push($cCustomArray, $p[$i]["nombre"]);
+                array_push($cImageArray, $img_Pokeball);
+            }
 
             $structure = [
-                            'description'
+                            'paragraph',
+                            'comma',
+                            'reply'
                         ];
 
             $components = [
-                            [$aTitleArray,$aTextArray]
+                            [$pTitleArray,$pSubtitleArray],
+                            [],
+                            [$cTitleArray, $cImageArray, $cCustomArray]
                         ];
-
                         
             
                         
@@ -671,7 +719,7 @@
 
     }
 
-        if(intent("consulta_todosPorAltura")) {
+    if(intent("consulta_todosPorAltura")) {
 
         ob_start();
 
@@ -756,30 +804,149 @@
 
             $p = Consultas::seleccionaPokemon_altura($number,$comparator);
 
-            $aTextArray = [[]];
-
-            for($i = 0; $i<count($p); $i++){
-                array_push($aTextArray[0], $p[$i]["nombre"]);
-            }
 
             $context = false;
             $contextBody = [];
             $webTitle = ["Oak"];
+
+            $pTitleArray = ["Estos son los pokemones con una altura $comparator a $value $unit"];
+            $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+            $cTitleArray = [];
+            $cImageArray = [];
+            $cCustomArray = [];
+
+            for($i = 0; $i<count($p); $i++){
+                array_push($cTitleArray, $p[$i]["nombre"]);
+                array_push($cCustomArray, $p[$i]["nombre"]);
+                array_push($cImageArray, $img_Pokeball);
+            }
+
+            $structure = [
+                            'paragraph',
+                            'comma',
+                            'reply'
+                        ];
+
+            $components = [
+                            [$pTitleArray,$pSubtitleArray],
+                            [],
+                            [$cTitleArray, $cImageArray, $cCustomArray]
+                        ];
+                        
             
-            $aTitleArray = ["Estos son los pokemones con una altura $comparator a $value $unit"];
+                        
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+        }
+
+    }
+
+    if(intent("consulta_datosPorPokemon")) {
+
+        ob_start();
+
+        $pokemon = getIntentparameter()["pokemon"];
+
+        ob_end_clean();
+
+        if(!$pokemon) {
+
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+
+            $title = getInput()["queryResult"]["queryText"];
+
+            $pTitleArray = [$title];
+            $pSubtitleArray = ["De que pokemon quieres saberlo?"];
+
+
+            $structure = [
+                            'paragraph',
+                        ];
+
+            $components = [
+                            [$pTitleArray,$pSubtitleArray]
+                        ];
+
+                        
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+        } else {
+
+            ob_start();
+
+            $p = Consultas::seleccionaPokemon_datos($pokemon)[0];
+
+            ob_end_clean();
+
+            if(!$p) {
+
+                triggerError(false,[], ['consulta_datosPorPokemon'],['Este pokemon no existe'],[]);
+
+            }
+
+            $nombre = $p["nombre"];
+            $peso = $p["peso"];
+            $altura = $p["altura"];
+            $tipo = $p["tipo"];
+
+            ob_start();
+
+            if(!$p["evoluciona_a"]) {
+
+                $evolucion = "No tiene evolución";
+
+            } elseif($p["nivel_evolucion"]) {
+
+                $evoluciona_a = $p['evoluciona_a'];
+                $nivel = $p['nivel_evolucion'];
+
+                $evolucion = "Evoluciona a $evoluciona_a al nivel $nivel";
+
+            } elseif($p['piedra_evolucion']) {
+
+                $evoluciona_a = $p['evoluciona_a'];
+                $piedra = $p['piedra_evolucion'];
+
+                $evolucion = "Evoluciona a $evoluciona_a utilizando una $piedra";
+
+            } else {
+
+                $evoluciona_a = $p['evoluciona_a'];
+
+
+                $evolucion = "Evoluciona a $evoluciona_a por intercambio";
+
+            }
+
+
+            ob_end_clean();
+
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+
+            
+
+
+            $dTitleArray = [$nombre];
+            $dTextArray = [["Peso: $peso kg","Altura: $altura m", "Tipo: $tipo", $evolucion]];
 
             $structure = [
                             'description'
                         ];
 
             $components = [
-                            [$aTitleArray,$aTextArray]
+                            [$dTitleArray,$dTextArray]
                         ];
 
                         
             
                         
             webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
 
         }
 
