@@ -22,9 +22,8 @@ require_once("classes/Transcripts.php");
 require_once("intents/test.php");                        #To make test Create Test Intent, connect Webhook and test your Request/Response
 
 
-$n = Consultas::seleccionaPokemon_datos("Pidgey");
-
-print_r($n);
+// $c = Consultas::seleccionaPokemon_evolucionNivel(16,"igual");
+// print_r($c);
 
 
 ?>

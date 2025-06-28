@@ -89,6 +89,66 @@ Class Consultas {
 
     }
 
+    static public function cuentaPokemon_evolucion() {
+
+        $sql = "SELECT 
+        te.tipo_evolucion AS metodo,
+        COUNT(DISTINCT pfe.numero_pokedex) AS cantidad_pokemon
+        FROM tipo_evolucion te
+        LEFT JOIN forma_evolucion fe ON te.id_tipo_evolucion = fe.tipo_evolucion
+        LEFT JOIN pokemon_forma_evolucion pfe ON fe.id_forma_evolucion = pfe.id_forma_evolucion
+        GROUP BY te.id_tipo_evolucion, te.tipo_evolucion";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
+    static public function cuentaPokemon_evolucionPiedra($piedra) {
+
+        $sql = "SELECT tp.nombre_piedra, COUNT(DISTINCT pfe.numero_pokedex) AS cantidad_pokemones
+        FROM pokemon_forma_evolucion pfe
+        JOIN forma_evolucion fe ON pfe.id_forma_evolucion = fe.id_forma_evolucion
+        JOIN piedra pi ON fe.id_forma_evolucion = pi.id_forma_evolucion
+        JOIN tipo_piedra tp ON pi.id_tipo_piedra = tp.id_tipo_piedra
+        WHERE tp.nombre_piedra = '$piedra'";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
+
+    static public function cuentaPokemon_evolucionNivel($nivel,$comparator) {
+
+        if($comparator === "igual") {
+            $s = "=";
+        } elseif($comparator === "mayor") {
+            $s = ">";
+        } elseif($comparator === "menor") {
+            $s = "<";
+        } elseif($comparator === "mayor o igual") {
+            $s = ">=";
+        } else {
+            $s = "<=";
+        }
+
+        $sql = "SELECT COUNT(DISTINCT pfe.numero_pokedex) AS cantidad_pokemones
+        FROM pokemon_forma_evolucion pfe
+        JOIN nivel_evolucion ne ON pfe.id_forma_evolucion = ne.id_forma_evolucion
+        WHERE ne.nivel $s $nivel";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
 
     static public function selecciona_simple($tabla) {
 
@@ -173,6 +233,81 @@ Class Consultas {
 
     }
 
+    static public function seleccionaPokemon_evolucion($value) {
+
+        $sql = "SELECT 
+        p.nombre AS nombre_pokemon
+        FROM tipo_evolucion te
+        LEFT JOIN forma_evolucion fe ON te.id_tipo_evolucion = fe.tipo_evolucion
+        LEFT JOIN pokemon_forma_evolucion pfe ON fe.id_forma_evolucion = pfe.id_forma_evolucion
+        LEFT JOIN pokemon p ON p.numero_pokedex = pfe.numero_pokedex
+        WHERE te.tipo_evolucion = '$value'";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
+        static public function seleccionaPokemon_evolucionPiedra($piedra) {
+
+        $sql = "SELECT DISTINCT p.nombre AS nombre_pokemon
+        FROM pokemon_forma_evolucion pfe
+        JOIN forma_evolucion fe ON pfe.id_forma_evolucion = fe.id_forma_evolucion
+        JOIN piedra pi ON fe.id_forma_evolucion = pi.id_forma_evolucion
+        JOIN tipo_piedra tp ON pi.id_tipo_piedra = tp.id_tipo_piedra
+        JOIN pokemon p ON p.numero_pokedex = pfe.numero_pokedex
+        WHERE tp.nombre_piedra = '$piedra'";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
+
+    static public function seleccionaPokemon_evolucionNivel($nivel,$comparator) {
+
+        if($comparator === "igual") {
+            $s = "=";
+        } elseif($comparator === "mayor") {
+            $s = ">";
+        } elseif($comparator === "menor") {
+            $s = "<";
+        } elseif($comparator === "mayor o igual") {
+            $s = ">=";
+        } else {
+            $s = "<=";
+        }
+
+        $sql = "SELECT DISTINCT p.nombre AS nombre_pokemon
+        FROM pokemon_forma_evolucion pfe
+        JOIN nivel_evolucion ne ON pfe.id_forma_evolucion = ne.id_forma_evolucion
+        JOIN pokemon p ON p.numero_pokedex = pfe.numero_pokedex
+        WHERE ne.nivel $s $nivel";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
+    static public function seleccionaPokemon_conEvolucion() {
+
+        $sql = "SELECT DISTINCT p.nombre AS nombre_pokemon
+        FROM pokemon p
+        JOIN evoluciona_de ed ON p.numero_pokedex = ed.pokemon_origen;";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->close();
+        $stmt =  null;
+
+    }
+
     static public function seleccionaPokemon_datos($pokemon) {
 
         $sql = "SELECT
@@ -204,6 +339,9 @@ Class Consultas {
         $stmt =  null;
 
     }
+
+
+    
 }
 
 ?>

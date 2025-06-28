@@ -950,5 +950,321 @@
 
         }
 
+
+    }
+
+    if(intent('consulta_cuentaPorEvolucion')) {
+        
+            ob_start();
+
+            $a = getIntentParameter()["atributoevolucion"];
+
+            ob_end_clean();
+
+            
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+
+            if(!$a) {
+
+                ob_start();
+
+                $n = getIntentParameter()["number"];
+
+                $p = getIntentParameter()["piedra"];
+
+                ob_end_clean();
+
+                if($p) {
+
+                    $c = Consultas::cuentaPokemon_evolucionPiedra($p)[0]["cantidad_pokemones"];
+
+                    $pTitleArray = ["Cantidad de pokemones que evolucionan con una $p"];
+                    $pSubtitleArray = ["Hay $c pokemones que evolucionan con una $p"];
+
+                    $cTitleArray = ["Cuales son los pokemones que evolucionan con una $p"];
+                    $cImageArray = [$img_Question];
+                    $cCustomArray = ["Cuales son los pokemones que evolucionan con una $p"];
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                } elseif($n) {
+
+
+                    ob_start();
+
+                    $comparator = getIntentParameter()["compare"];
+            
+                    ob_end_clean();
+
+                    if(!$comparator) {
+
+                        $comparator = "igual";
+
+                    }
+
+                    $c = Consultas::cuentaPokemon_evolucionNivel($n,$comparator)[0]["cantidad_pokemones"];
+
+                    $pTitleArray = ["Cantidad de pokemones que evolucionan a un nivel $comparator que el $n"];
+                    $pSubtitleArray = ["Hay $c pokemones que evolucionan a un nivel $comparator que el $n"];
+
+                    $cTitleArray = ["Cuales son los pokemones que evolucionan a un nivel $comparator que el $n"];
+                    $cImageArray = [$img_Question];
+                    $cCustomArray = ["Cuales son los pokemones que evolucionan a un nivel $comparator que el $n"];
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                } else {
+
+                    $ce = Consultas::cuentaPokemon_evolucion();
+
+                    $c = 0;
+
+                    for($i = 0; $i<count($ce); $i++) {
+
+                        $c += $ce[$i]["cantidad_pokemon"];
+
+                    }
+
+
+                    $pTitleArray = ["Cantidad de pokemones que evolucionan"];
+                    $pSubtitleArray = ["Hay $c pokemones que evolucionan"];
+
+                    $cTitleArray = ["Cuales son los pokemones que evolucionan"];
+                    $cImageArray = [$img_Question];
+                    $cCustomArray = ["Cuales son los pokemones que evolucionan"];
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                }
+
+            } else {
+
+                $ce = Consultas::cuentaPokemon_evolucion();
+
+                for($i = 0; $i<count($ce); $i++) {
+
+                    if($ce[$i]["metodo"]==$a) {
+                        $c = $ce[$i]["cantidad_pokemon"];
+                    }
+
+                }
+
+
+
+                $pTitleArray = ["Cantidad de pokemones que evolucionan por $a"];
+                $pSubtitleArray = ["Hay $c pokemones que evolucionan por $a"];
+
+                $cTitleArray = ["Cuales son los pokemones que evolucionan por $a"];
+                $cImageArray = [$img_Question];
+                $cCustomArray = ["Cuales son los pokemones que evolucionan por $a"];
+
+                $structure = [
+                            'paragraph',
+                            'comma',
+                            'reply'
+                        ];
+
+                $components = [
+                                [$pTitleArray,$pSubtitleArray],
+                                [],
+                                [$cTitleArray,$cImageArray,$cCustomArray]
+                            ];
+
+            }
+
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+    }
+
+    if(intent('consulta_todosPorEvolucion')) {
+
+            ob_start();
+
+            $a = getIntentParameter()["atributoevolucion"];
+
+            ob_end_clean();
+
+            $context = false;
+            $contextBody = [];
+            $webTitle = ["Oak"];
+
+            if(!$a) {
+
+                ob_start();
+
+                $n = getIntentParameter()["number"];
+
+                $p = getIntentParameter()["piedra"];
+
+                ob_end_clean();
+
+                if($p) {
+
+                    $ps = Consultas::seleccionaPokemon_evolucionPiedra($p);
+
+                    $pTitleArray = ["Pokemones que evolucionan con una $p"];
+                    $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+                    $cTitleArray = [];
+                    $cImageArray = [];
+                    $cCustomArray = [];
+
+                    for($i=0; $i< count($ps); $i++) {
+                        array_push($cTitleArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cCustomArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cImageArray, $img_Pokeball);
+                    }
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                } elseif($n) {
+
+
+                    ob_start();
+
+                    $comparator = getIntentParameter()["compare"];
+            
+                    ob_end_clean();
+
+                    if(!$comparator) {
+
+                        $comparator = "igual";
+
+                    }
+
+                    $ps = Consultas::seleccionaPokemon_evolucionNivel($n,$comparator);
+
+                    $pTitleArray = ["Pokemones que evolucionan a un nivel $comparator que el $n"];
+                    $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+                    $cTitleArray = [];
+                    $cImageArray = [];
+                    $cCustomArray = [];
+
+                    for($i=0; $i< count($ps); $i++) {
+                        array_push($cTitleArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cCustomArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cImageArray, $img_Pokeball);
+                    }
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                } else {
+
+                    $ps = Consultas::seleccionaPokemon_conEvolucion();
+
+                    $pTitleArray = ["Pokemones que evolucionan"];
+                    $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+                    $cTitleArray = [];
+                    $cImageArray = [];
+                    $cCustomArray = [];
+
+                    for($i=0; $i< count($ps); $i++) {
+                        array_push($cTitleArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cCustomArray, $ps[$i]["nombre_pokemon"]);
+                        array_push($cImageArray, $img_Pokeball);
+                    }
+
+                    $structure = [
+                                'paragraph',
+                                'comma',
+                                'reply'
+                            ];
+
+                    $components = [
+                                    [$pTitleArray,$pSubtitleArray],
+                                    [],
+                                    [$cTitleArray,$cImageArray,$cCustomArray]
+                                ];
+
+                }
+
+            } else {
+
+                $ps = Consultas::seleccionaPokemon_evolucion($a);
+
+                $pTitleArray = ["Pokemones que evolucionan por $a"];
+                $pSubtitleArray = ["Quieres saber algo más sobre alguno?"];
+
+                $cTitleArray = [];
+                $cImageArray = [];
+                $cCustomArray = [];
+
+                for($i=0; $i< count($ps); $i++) {
+                    array_push($cTitleArray, $ps[$i]["nombre_pokemon"]);
+                    array_push($cCustomArray, $ps[$i]["nombre_pokemon"]);
+                    array_push($cImageArray, $img_Pokeball);
+                }
+
+                $structure = [
+                            'paragraph',
+                            'comma',
+                            'reply'
+                        ];
+
+                $components = [
+                                [$pTitleArray,$pSubtitleArray],
+                                [],
+                                [$cTitleArray,$cImageArray,$cCustomArray]
+                            ];
+
+            }
+
+            webStructureTemplate($context, $contextBody, $webTitle, $structure, $components);
+
+
     }
 ?>
