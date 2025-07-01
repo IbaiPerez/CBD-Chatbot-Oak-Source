@@ -1112,7 +1112,7 @@
 
             ob_start();
 
-            $a = getIntentParameter()["atributoevolucion"];
+            $a = getIntentParameter()["AtributoEvolucion"];
 
             ob_end_clean();
 
@@ -1126,7 +1126,7 @@
 
                 $n = getIntentParameter()["number"];
 
-                $p = getIntentParameter()["piedra"];
+                $p = getIntentParameter()["Piedra"];
 
                 ob_end_clean();
 
